@@ -64,7 +64,7 @@ android {
     }
     defaultConfig {
         applicationId = namespace
-        versionName = "1.0.1"
+        versionName = "1.0.2"
         versionCode = versionName?.toVersionCode()
         val applicationIdFormat = applicationId!!.replace(oldChar = '.', newChar = '_')
         buildTypes {
