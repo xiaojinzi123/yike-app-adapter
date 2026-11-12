@@ -113,6 +113,8 @@ android {
                 elements = listOf(
                     "armeabi-v7a",
                     "arm64-v8a",
+                    // 本地 x86_64 模拟器调试用；上游只发 arm
+                    "x86_64",
                 )
             )
         }
@@ -124,4 +126,5 @@ android {
 
 dependencies {
     implementation(project(":module-network:opensource"))
+    implementation(project(":module-qianji"))
 }
