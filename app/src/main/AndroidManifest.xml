@@ -2,17 +2,55 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- 离线发行包：覆盖依赖清单中的联网权限。 -->
+    <uses-permission
+        android:name="android.permission.INTERNET"
+        tools:node="remove" />
+    <uses-permission
+        android:name="android.permission.ACCESS_NETWORK_STATE"
+        tools:node="remove" />
+    <uses-permission
+        android:name="android.permission.ACCESS_WIFI_STATE"
+        tools:node="remove" />
+
+    <!-- 账单附件只选择照片，不需要系统设置、全盘存储或音视频权限。 -->
+    <uses-permission
+        android:name="android.permission.WRITE_MEDIA_STORAGE"
+        tools:node="remove" />
+    <uses-permission
+        android:name="android.permission.WRITE_SETTINGS"
+        tools:node="remove" />
+    <uses-permission
+        android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
+        tools:node="remove" />
+    <uses-permission
+        android:name="android.permission.MODIFY_AUDIO_SETTINGS"
+        tools:node="remove" />
+    <uses-permission
+        android:name="android.permission.RECORD_AUDIO"
+        tools:node="remove" />
+    <uses-permission
+        android:name="android.permission.READ_MEDIA_AUDIO"
+        tools:node="remove" />
+    <uses-permission
+        android:name="android.permission.READ_MEDIA_VIDEO"
+        tools:node="remove" />
+    <uses-permission
+        android:name="android.permission.FOREGROUND_SERVICE"
+        tools:node="remove" />
+
     <application
         android:name=".AppOpenSource"
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="${appIcon}"
         android:label="${appLabel}"
-        android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="${appRoundIcon}"
         android:supportsRtl="true"
         android:theme="@style/Theme.Tally.App"
+        android:usesCleartextTraffic="false"
+        tools:replace="android:allowBackup"
         tools:targetApi="31">
 
         <activity
@@ -21,12 +59,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Tally.App.Loading"
             android:windowSoftInputMode="adjustNothing">
-
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
 
             <intent-filter>
                 <action android:name="app_launch_20240723" />
@@ -40,19 +72,88 @@
 
         </activity>
 
-        <activity
-            android:name=".wxapi.WXEntryActivity"
+        <!-- 桌面图标别名：运行时只启用其中一个，由设置页切换。 -->
+        <activity-alias
+            android:name=".LauncherDefault"
+            android:enabled="true"
             android:exported="true"
-            android:launchMode="singleTask"
-            android:taskAffinity="com.xiaojinzi.tally.app1"
-            android:theme="@style/Theme.Tally.App.Transparent" />
+            android:icon="@mipmap/ic_launcher"
+            android:label="${appLabel}"
+            android:targetActivity="com.xiaojinzi.tally.module.user.module.loading.view.LoadingAct">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-        <activity
-            android:name=".wxapi.WXPayEntryActivity"
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+
+        <activity-alias
+            android:name=".LauncherBlue"
+            android:enabled="false"
             android:exported="true"
-            android:launchMode="singleTask"
-            android:taskAffinity="com.xiaojinzi.tally.app1"
-            android:theme="@style/Theme.Tally.App.Transparent" />
+            android:icon="@mipmap/ic_launcher_suiren_blue"
+            android:label="${appLabel}"
+            android:targetActivity="com.xiaojinzi.tally.module.user.module.loading.view.LoadingAct">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+
+        <activity-alias
+            android:name=".LauncherGreen"
+            android:enabled="false"
+            android:exported="true"
+            android:icon="@mipmap/ic_launcher_suiren_green"
+            android:label="${appLabel}"
+            android:targetActivity="com.xiaojinzi.tally.module.user.module.loading.view.LoadingAct">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+
+        <activity-alias
+            android:name=".LauncherAmber"
+            android:enabled="false"
+            android:exported="true"
+            android:icon="@mipmap/ic_launcher_suiren_amber"
+            android:label="${appLabel}"
+            android:targetActivity="com.xiaojinzi.tally.module.user.module.loading.view.LoadingAct">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+
+        <!-- 保留 WorkManager 等本地初始化项，只移除网络库的自动初始化。 -->
+        <provider
+            android:name="androidx.startup.InitializationProvider"
+            android:authorities="${applicationId}.androidx-startup"
+            tools:node="merge">
+            <meta-data
+                android:name="okhttp3.internal.platform.PlatformInitializer"
+                tools:node="remove" />
+        </provider>
+
+        <provider
+            android:name="com.google.mlkit.common.internal.MlKitInitProvider"
+            tools:node="remove" />
+        <service
+            android:name="com.google.mlkit.common.internal.MlKitComponentDiscoveryService"
+            tools:node="remove" />
+        <service
+            android:name="com.google.android.datatransport.runtime.backends.TransportBackendDiscovery"
+            tools:node="remove" />
+        <service
+            android:name="com.google.android.datatransport.runtime.scheduling.jobscheduling.JobInfoSchedulerService"
+            tools:node="remove" />
+        <receiver
+            android:name="com.google.android.datatransport.runtime.scheduling.jobscheduling.AlarmManagerSchedulerBroadcastReceiver"
+            tools:node="remove" />
 
         <activity
             android:name="com.xiaojinzi.support.init.RebootAct"

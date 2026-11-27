@@ -17,9 +17,6 @@ class AppOpenSourceInfoSpiImpl : BaseAppInfoSpiImpl() {
         get() = R.mipmap.ic_launcher
 
     override val appIconRsd: Int
-        get() = R.drawable.app_icon
-
-    override val officialUrl: String
-        get() = "https://yike.icxj.cn"
+        get() = R.drawable.app_icon_xiaoya
 
 }
