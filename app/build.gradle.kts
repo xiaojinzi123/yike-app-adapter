@@ -36,35 +36,14 @@ android {
     productFlavors {
         maybeCreate("dev").apply {
             dimension = "env"
-            buildConfigField(
-                "String",
-                "baseNetworkUrl",
-                // "\"http://1978iy9407.zicp.fun:28080/api\"",
-                "\"http://192.168.199.244:8080/api\"",
-            )
-            buildConfigField(
-                "String",
-                "baseWebUrl",
-                "\"http://192.168.199.244:8080\"",
-            )
         }
         maybeCreate("prd").apply {
             dimension = "env"
-            buildConfigField(
-                "String",
-                "baseNetworkUrl",
-                "\"https://yike.icxj.cn/api\"",
-            )
-            buildConfigField(
-                "String",
-                "baseWebUrl",
-                "\"https://yike.icxj.cn\"",
-            )
         }
     }
     defaultConfig {
-        applicationId = namespace
-        versionName = "1.0.2"
+        applicationId = "suiren.qianji"
+        versionName = "1.4.0"
         versionCode = versionName?.toVersionCode()
         val applicationIdFormat = applicationId!!.replace(oldChar = '.', newChar = '_')
         buildTypes {
@@ -109,11 +88,10 @@ android {
         }
         ndk {
             abiFilters.clear()
+            // 手机交付默认仅 ARM64；模拟器回归通过命令行单独选择 x86_64。
             abiFilters.addAll(
-                elements = listOf(
-                    "armeabi-v7a",
-                    "arm64-v8a",
-                )
+                providers.gradleProperty("xiaoya.abi").orElse("arm64-v8a").get()
+                    .split(',').map { it.trim() }.filter { it.isNotEmpty() },
             )
         }
     }
@@ -123,5 +101,5 @@ android {
 }
 
 dependencies {
-    implementation(project(":module-network:opensource"))
+    implementation(project(":module-qianji"))
 }

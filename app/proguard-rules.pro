@@ -5,21 +5,6 @@
 # For more details, see
 #   http://developer.android.com/guide/developing/tools/proguard.html
 
-# If your project uses WebView with JS, uncomment the following
-# and specify the fully qualified class name to the JavaScript interface
-# class:
-#-keepclassmembers class fqcn.of.javascript.interface.for.webview {
-#   public *;
-#}
-
-# Uncomment this to preserve the line number information for
-# debugging stack traces.
-#-keepattributes SourceFile,LineNumberTable
-
-# If you keep the line number information, uncomment this to
-# hide the original source file name.
-#-renamesourcefileattribute SourceFile
-
 ###################### Gson start ######################
 
 # Gson uses generic type information stored in a class file when working with
@@ -38,151 +23,11 @@
 
 ###################### Gson end ######################
 
-###################### 阿里云 oss start ######################
-
--keep class com.alibaba.sdk.android.oss.** { *; }
--dontwarn okio.**
--dontwarn org.apache.commons.codec.binary.**
-
-######################  阿里云 oss end ######################
-
-###################### 推送 start ######################
-
-# oppo 的
--keep public class * extends android.app.Service
--keep interface com.heytap.msp.** { *;}
--keep class com.heytap.msp.** { *;}
-
-###################### 推送 end   ######################
-
-######################云刷脸混淆规则   faceverify-BEGIN#######################
-####
-#不混淆内部类
--keepattributes InnerClasses
-
-#不混淆jni调用类
--keepclasseswithmembers class *{
+# 本地库的反射与 JNI 元数据。
+-keepattributes InnerClasses,EnclosingMethod,*Annotation*,Exceptions
+-keepclasseswithmembers class * {
     native <methods>;
 }
-
-###################### 网易七鱼客服-BEGIN ###########################
-
--dontwarn com.qiyukf.**
--keep class com.qiyukf.** {*;}
--dontwarn com.netease.**
--keep class com.netease.** {*;}
--dontwarn org.slf4j.**
--keep class org.slf4j.** { *; }
-
-###################### 网易七鱼客服-end ###########################
-
-###################### faceverify-BEGIN ###########################
--ignorewarnings
--keep public class com.tencent.ytcommon.**{*;}
--keep class com.tencent.turingfd.sdk.mfa.TNative$aa { public *; }
--keep class com.tencent.turingfd.sdk.mfa.TNative$aa$bb { public *;}
--keep class com.tencent.turingcam.** {*;}
--keep class com.tencent.turingfd.** {*;}
-
--keep public class com.tencent.youtu.ytagreflectlivecheck.jni.**{*;}
--keep public class com.tencent.youtu.ytagreflectlivecheck.YTAGReflectLiveCheckInterface{
-    public <methods>;
-}
--keep public class com.tencent.youtu.ytposedetect.jni.**{*;}
--keep public class com.tencent.youtu.ytposedetect.data.**{*;}
--keep public class com.tencent.youtu.liveness.YTFaceTracker{*;}
--keep public class com.tencent.youtu.liveness.YTFaceTracker$*{*;}
-
--keep public class com.tencent.cloud.huiyansdkface.facelight.net.*$*{
-    *;
-}
--keep public class com.tencent.cloud.huiyansdkface.facelight.net.**{
-    *;
-}
--keep public class com.tencent.cloud.huiyansdkface.facelight.config.cdn.WbUiTips{
-    *;
-}
-
-#================数据上报混淆规则 start===========================
-#实体类
--keep class com.tencent.cloud.huiyansdkface.analytics.EventSender{
-    *;
-}
--keep class com.tencent.cloud.huiyansdkface.analytics.EventSender$*{
-    *;
-}
--keep class com.tencent.cloud.huiyansdkface.analytics.WBSAEvent{
-     *;
-}
--keep class com.tencent.cloud.huiyansdkface.analytics.WBSAParam{
-     *;
-}
-#================数据上报混淆规则 end===========================
-
-#######################faceverify-END#############################
-
-####################### normal混淆规则-BEGIN#############################
-#不混淆内部类
--keepattributes InnerClasses
--keepattributes *Annotation*
--keepattributes Signature
--keepattributes Exceptions
-
--keep public class com.tencent.cloud.huiyansdkface.normal.net.*$*{
-    *;
-}
--keep public class com.tencent.cloud.huiyansdkface.normal.net.*{
-    *;
-}
-#bugly
--keep class com.tencent.bugly.idasc.**{
-    *;
-}
-#wehttp混淆规则
--dontwarn com.tencent.cloud.huiyansdkface.okio.**
--keep class com.tencent.cloud.huiyansdkface.okio.**{
-    *;
-}
--dontwarn com.tencent.cloud.huiyansdkface.okhttp3.OkHttpClient$Builder
-
-####################### normal混淆规则-END #############################
-
-# ------------------------ 为确保对堆栈轨迹进行轨迹还原时清楚明确, Bugly 文档中抄的 ------------------------
-
-# -keepattributes LineNumberTable,SourceFile
-# -renamesourcefileattribute SourceFile
-
-# ------------------------ 为确保对堆栈轨迹进行轨迹还原时清楚明确, Bugly 文档中抄的 ------------------------
-
-# ------------------------ 网易一键登录 ------------------------
-
--dontwarn com.cmic.sso.sdk.**
--keep class com.cmic.sso.**{*;}
--dontwarn com.sdk.**
--keep class com.sdk.** { *;}
--keep class cn.com.chinatelecom.account.**{*;}
--keep public class * extends android.view.View
--keep class com.netease.nis.quicklogin.entity.**{*;}
--keep class com.netease.nis.quicklogin.listener.**{*;}
--keep class com.netease.nis.quicklogin.QuickLogin{
-    public <methods>;
-    public <fields>;
-}
--keep class com.netease.nis.quicklogin.helper.UnifyUiConfig{*;}
--keep class com.netease.nis.quicklogin.helper.UnifyUiConfig$Builder{
-     public <methods>;
-     public <fields>;
- }
--keep class com.netease.nis.quicklogin.utils.LoginUiHelper$CustomViewListener{
-     public <methods>;
-     public <fields>;
-}
--keep class com.netease.nis.basesdk.**{
-    public *;
-    protected *;
-}
-
-# ------------------------ 网易一键登录 ------------------------
 
 # ------------------------ UCrop https://github.com/Yalantis/uCrop ----------------------
 -dontwarn com.yalantis.ucrop**
@@ -201,89 +46,7 @@
 -keep class com.opensource.svgaplayer.proto.** { *; }
 # ------------------------ SVGAPlayer ----------------------
 
-# ------------------------ bugly ----------------------
--dontwarn com.tencent.bugly.**
--keep public class com.tencent.bugly.**{*;}
-# ------------------------ bugly ----------------------
-
-# ------------------------ im 腾讯 ----------------------
--keep class com.tencent.imsdk.** { *; }
-# ------------------------ im 腾讯 ----------------------
-
-# ------------------------ 微信 腾讯 ----------------------
-
-# 所有本包下面的类和接口都不混淆
--keep class com.tencent.** {*;}
--keep interface com.tencent.** {*;}
-
--keep class com.tencent.mm.opensdk.** {
-    *;
-}
--keep class com.tencent.wxop.** {
-    *;
-}
--keep class com.tencent.mm.sdk.** {
-    *;
-}
-# ------------------------ 微信 腾讯 ----------------------
-
-# ------------------------ 即构 ----------------------
--keep class **.zego.**{*;}
-# ------------------------ 即构 ----------------------
-
-# ------------------------ retrofit ----------------------
-
-# Retrofit does reflection on generic parameters. InnerClasses is required to use Signature and
-# EnclosingMethod is required to use InnerClasses.
--keepattributes Signature, InnerClasses, EnclosingMethod
-
-# Retrofit does reflection on method and parameter annotations.
--keepattributes RuntimeVisibleAnnotations, RuntimeVisibleParameterAnnotations
-
-# Keep annotation default values (e.g., retrofit2.http.Field.encoded).
--keepattributes AnnotationDefault
-
-# Retain service method parameters when optimizing.
--keepclassmembers,allowshrinking,allowobfuscation interface * {
-    @retrofit2.http.* <methods>;
-}
-
-# Ignore annotation used for build tooling.
--dontwarn org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement
-
-# Ignore JSR 305 annotations for embedding nullability information.
--dontwarn javax.annotation.**
-
-# Guarded by a NoClassDefFoundError try/catch and only used when on the classpath.
--dontwarn kotlin.Unit
-
-# Top-level functions that can only be used by Kotlin.
--dontwarn retrofit2.KotlinExtensions
--dontwarn retrofit2.KotlinExtensions$*
-
-# With R8 full mode, it sees no subtypes of Retrofit interfaces since they are created with a Proxy
-# and replaces all potential values with null. Explicitly keeping the interfaces prevents this.
--if interface * { @retrofit2.http.* <methods>; }
--keep,allowobfuscation interface <1>
-
-# Keep inherited services.
--if interface * { @retrofit2.http.* <methods>; }
--keep,allowobfuscation interface * extends <1>
-
-# With R8 full mode generic signatures are stripped for classes that are not
-# kept. Suspend functions are wrapped in continuations where the type argument
-# is used.
--keep,allowobfuscation,allowshrinking class kotlin.coroutines.Continuation
-
-# R8 full mode strips generic signatures from return types if not kept.
--if interface * { @retrofit2.http.* public *** *(...); }
--keep,allowoptimization,allowshrinking,allowobfuscation class <3>
-
-# With R8 full mode generic signatures are stripped for classes that are not kept.
--keep,allowobfuscation,allowshrinking class retrofit2.Response
-
-# ------------------------ retrofit ----------------------
-
+# Coil 的本地图片加载仍使用 OkHttp 类型，保留其兼容规则。
 # ------------------------ okhttp ----------------------
 
 # JSR 305 annotations are for embedding nullability information.
@@ -303,12 +66,35 @@
 
 # ------------------------ okhttp ----------------------
 
-# ------------------------ okio ----------------------
+# XLS 仅调用文本/数值/日期读取；POI 的桌面绘图和 Log4j 的 OSGi 是可选路径。
+# 已使用拒绝 AWT/OSGi 的类加载器验证 WorkbookFactory XLS 导入。
+-dontwarn aQute.bnd.annotation.spi.ServiceConsumer
+-dontwarn aQute.bnd.annotation.spi.ServiceProvider
+-dontwarn java.awt.Color
+-dontwarn java.awt.Dimension
+-dontwarn java.awt.Rectangle
+-dontwarn java.awt.color.ColorSpace
+-dontwarn java.awt.geom.AffineTransform
+-dontwarn java.awt.geom.Dimension2D
+-dontwarn java.awt.geom.Path2D
+-dontwarn java.awt.geom.PathIterator
+-dontwarn java.awt.geom.Point2D
+-dontwarn java.awt.geom.Rectangle2D
+-dontwarn java.awt.image.BufferedImage
+-dontwarn java.awt.image.ColorModel
+-dontwarn java.awt.image.ComponentColorModel
+-dontwarn java.awt.image.DirectColorModel
+-dontwarn java.awt.image.IndexColorModel
+-dontwarn java.awt.image.PackedColorModel
+-dontwarn org.osgi.framework.Bundle
+-dontwarn org.osgi.framework.BundleContext
+-dontwarn org.osgi.framework.FrameworkUtil
+-dontwarn org.osgi.framework.ServiceReference
 
-# Animal Sniffer compileOnly dependency to ensure APIs are compatible with older versions of Java.
--dontwarn org.codehaus.mojo.animal_sniffer.*
-
-# ------------------------ okio ----------------------
+# WorkbookFactory 通过 META-INF/services 创建 XLS provider。
+-keep class org.apache.poi.hssf.usermodel.HSSFWorkbookFactory {
+    public <init>();
+}
 
 # ------------------------ 小金子mvvm reactive 框架 start ----------------------
 # 忽略 com.xiaojinzi.reactive.anno.IntentProcess 注解标记的所有方法
@@ -339,15 +125,3 @@
 -keep class * implements com.xiaojinzi.component.application.IComponentApplication{*;}
 -keep class * implements com.xiaojinzi.component.support.Inject{*;}
 # ------------------------ 小金子组件化框架 不要警告 ----------------------
-
-# ------------------------ 其他 ----------------------
-
--dontwarn com.tencent.qimei.codez.FalconSdk
--dontwarn com.tencent.qimei.codez.IFalconSdk
--dontwarn com.tencent.qimei.codez.shell.UserInfoType
--dontwarn com.tencent.smtt.export.external.extension.interfaces.IX5WebViewExtension
--dontwarn com.tencent.smtt.sdk.WebSettings
--dontwarn com.tencent.smtt.sdk.WebView
--dontwarn com.tencent.smtt.sdk.WebViewClient
-
-# ------------------------ 其他 ----------------------
